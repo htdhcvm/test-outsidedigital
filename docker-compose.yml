@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+    api:
+        build: ./api
+        volumes:
+            - ./api:/app
+        working_dir: /app
+        ports:
+            - 127.0.0.1:3000:3000
+        image: api-image
+        container_name: api-container
+    auth:
+        build: ./auth
+        volumes:
+            - ./auth:/app
+        working_dir: /app
+        ports:
+            - 127.0.0.1:3001:3001
+        image: auth-image
+        container_name: auth-container
