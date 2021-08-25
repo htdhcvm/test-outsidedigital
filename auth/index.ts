@@ -1,6 +1,5 @@
 import express from 'express';
 import setConfigs from './config';
-
 const app = express();
 
 setConfigs(app);
