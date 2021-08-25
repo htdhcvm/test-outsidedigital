@@ -8,6 +8,8 @@ services:
             POSTGRES_PASSWORD: 'outsidedigital_password'
         ports:
             - '5438:5432'
+        networks:
+            - outsidedigitalnet
     api:
         build: ./api
         volumes:
@@ -20,10 +22,18 @@ services:
         environment:
             PORT: 3000
             DATABASE_URL: postgres://outsidedigital_user:outsidedigital_password@db:5432/outsidedigital_db
-
+            DB_USER: outsidedigital_user
+            DB_HOST: db
+            DB_NAME: outsidedigital_db
+            DB_PASSWORD: outsidedigital_password
+            DB_PORT: 5432
+        volumes:
+            - ./api:/app
         depends_on:
             - 'db'
         command: bash -c "./wait-for-it.sh db:5432 && npm run migrate up && npm run start"
+        networks:
+            - outsidedigitalnet
     auth:
         build: ./auth
         volumes:
@@ -37,4 +47,16 @@ services:
             - 'db'
         environment:
             PORT: 3001
+            DB_USER: outsidedigital_user
+            DB_HOST: db
+            DB_NAME: outsidedigital_db
+            DB_PASSWORD: outsidedigital_password
+            DB_PORT: 5432
+        volumes:
+            - ./auth:/app
         command: bash -c "./wait-for-it.sh db:5432 && npm run start"
+        networks:
+            - outsidedigitalnet
+networks:
+    outsidedigitalnet:
+        driver: bridge
