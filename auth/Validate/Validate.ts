@@ -211,14 +211,4 @@ const isValidSignIn = (signInData: ClientDTOSignIn): SignInParamsReturn => {
     );
 };
 
-export {
-    Validator,
-    ValidateNickEmailPasswordOnUndefined,
-    ValidateNickEmailPasswordOnEmpty,
-    ValidateEmailOnValid,
-    ValidatePasswordOnLength,
-    ValidatePasswordOnUppercase,
-    ValidatePasswordOnNumbers,
-    ValidatePasswordOnLowercase,
-    isValidSignIn,
-};
+export { isValidSignIn };
