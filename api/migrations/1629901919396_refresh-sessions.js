@@ -5,10 +5,15 @@ exports.shorthands = undefined;
 exports.up = (pgm) => {
     pgm.createTable('refresh_sessions', {
         id: 'uuid',
-        refreshToken: 'uuid',
-        expiresIn: 'date',
-        id_user: 'uuid',
-        createdAt: 'date',
+        refresh_token: 'uuid',
+        expires_in: 'string',
+        user_id: {
+            type: 'uuid',
+            notNull: true,
+            references: 'user_outside',
+        },
+
+        created_at: 'date',
     });
 };
 

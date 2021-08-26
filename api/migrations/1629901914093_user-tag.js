@@ -8,7 +8,7 @@ exports.up = (pgm) => {
         userId: {
             type: 'uuid',
             notNull: true,
-            references: 'user',
+            references: 'user_outside',
         },
         tagId: {
             type: 'integer',
