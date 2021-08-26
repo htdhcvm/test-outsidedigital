@@ -9,7 +9,7 @@ class DbConnection {
     private static password: string = process.env.DB_PASSWORD;
     private static port: number = +process.env.DB_PORT;
 
-    static connect() {
+    static connect(): Client {
         if (!DbConnection.instanceConnection) {
             DbConnection.instanceConnection = new Client({
                 user: DbConnection.user,
