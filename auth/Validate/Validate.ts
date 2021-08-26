@@ -1,6 +1,7 @@
 import validator from 'validator';
 import isNumber from '../Helpers/isNumber';
 import ClientDTOSignIn from '../DTO/client/SignIn';
+import ClientDTOLogin from '../DTO/client/Login';
 
 type SignInParamsReturn = {
     status: boolean;
@@ -13,7 +14,7 @@ interface Handler {
     handle(
         email: string,
         password: string,
-        nickname: string
+        nickname?: string
     ): SignInParamsReturn;
 }
 
@@ -26,7 +27,7 @@ abstract class Validator implements Handler {
         return this.nextValidator;
     }
 
-    handle(email: string, password: string, nickname: string) {
+    handle(email: string, password: string, nickname?: string) {
         if (this.nextValidator) {
             return this.nextValidator.handle(email, password, nickname);
         }
@@ -193,6 +194,68 @@ class ValidatePasswordOnLowercase extends Validator {
     }
 }
 
+class ValidateEmailPasswordOnUndefined extends Validator {
+    handle(email: string, password: string, nickname?: string) {
+        let errorStringEmpty = 'The following fields are missing: ';
+        let checkerOnError = false;
+
+        const undefinedChecker = {
+            email: false,
+            password: false,
+        };
+
+        if (email === undefined) undefinedChecker.email = true;
+        if (password === undefined) undefinedChecker.password = true;
+
+        for (const [key, val] of Object.entries(undefinedChecker)) {
+            if (val) {
+                errorStringEmpty += key + ' ';
+                checkerOnError = true;
+            }
+        }
+
+        if (checkerOnError) {
+            return {
+                status: !checkerOnError,
+                text: errorStringEmpty.trim(),
+            };
+        }
+
+        return super.handle(email, password, nickname);
+    }
+}
+
+class ValidateEmailPasswordOnEmpty extends Validator {
+    handle(email: string, password: string, nickname?: string) {
+        let errorStringEmpty = 'The following fields are empty: ';
+        let checkerOnError = false;
+
+        let emptyChecker = {
+            email: false,
+            password: false,
+        };
+
+        if (validator.isEmpty(email)) emptyChecker.email = true;
+        if (validator.isEmpty(password)) emptyChecker.password = true;
+
+        for (const [key, val] of Object.entries(emptyChecker)) {
+            if (val) {
+                errorStringEmpty += key + ' ';
+                checkerOnError = true;
+            }
+        }
+
+        if (checkerOnError) {
+            return {
+                status: !checkerOnError,
+                text: errorStringEmpty.trim(),
+            };
+        }
+
+        return super.handle(email, password, nickname);
+    }
+}
+
 const isValidSignIn = ({
     email,
     password,
@@ -211,4 +274,18 @@ const isValidSignIn = ({
     return onUndefined.handle(email, password, nickname);
 };
 
-export { isValidSignIn };
+const isValidLogIn = ({ email, password }: ClientDTOLogin) => {
+    const onUndefined: Validator = new ValidateEmailPasswordOnUndefined();
+
+    onUndefined
+        .setNext(new ValidateEmailPasswordOnEmpty())
+        .setNext(new ValidateEmailOnValid())
+        .setNext(new ValidatePasswordOnLength())
+        .setNext(new ValidatePasswordOnUppercase())
+        .setNext(new ValidatePasswordOnNumbers())
+        .setNext(new ValidatePasswordOnLowercase());
+
+    return onUndefined.handle(email, password);
+};
+
+export { isValidSignIn, isValidLogIn };
