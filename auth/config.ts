@@ -4,10 +4,12 @@ import DbWorker from './models/DbWorker';
 import cors from 'cors';
 import route from './routes';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 
 const setConfigs = (app: Express) => {
     dotenv.config({ path: __dirname + '/.env' });
     app.use(bodyParser.json());
+    app.use(cookieParser());
     app.use(
         cors({
             origin: '*',
