@@ -193,7 +193,11 @@ class ValidatePasswordOnLowercase extends Validator {
     }
 }
 
-const isValidSignIn = (signInData: ClientDTOSignIn): SignInParamsReturn => {
+const isValidSignIn = ({
+    email,
+    password,
+    nickname,
+}: ClientDTOSignIn): SignInParamsReturn => {
     const onUndefined: Validator = new ValidateNickEmailPasswordOnUndefined();
 
     onUndefined
@@ -204,11 +208,7 @@ const isValidSignIn = (signInData: ClientDTOSignIn): SignInParamsReturn => {
         .setNext(new ValidatePasswordOnNumbers())
         .setNext(new ValidatePasswordOnLowercase());
 
-    return onUndefined.handle(
-        signInData.email,
-        signInData.password,
-        signInData.nickname
-    );
+    return onUndefined.handle(email, password, nickname);
 };
 
 export { isValidSignIn };
