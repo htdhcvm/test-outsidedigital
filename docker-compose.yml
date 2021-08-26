@@ -52,6 +52,10 @@ services:
             DB_NAME: outsidedigital_db
             DB_PASSWORD: outsidedigital_password
             DB_PORT: 5432
+            SALT : 10
+            JWT_EXPIRE_SESSION : 3600000
+            JWT_EXPIRE_ACCESS_TOKEN : 1800000
+            JWT_SECRET_KEY: 21CCEF8EF77D51D568185B5DB59D5FD534A6944FE21B2ECB3B84CC01C4744479
         volumes:
             - ./auth:/app
         command: bash -c "./wait-for-it.sh db:5432 && npm run start"
