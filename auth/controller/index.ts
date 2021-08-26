@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
 import ClientDTOSignIn from '../DTO/client/SignIn';
 import ServerDTOSignIn from '../DTO/server/SignIn';
+import ServerDTOLogin from '../DTO/server/Login';
 import AuthService from '../service';
+import ClientDTOLogin from '../DTO/client/Login';
+import ServerDTORefreshToken from '../DTO/server/RefreshToken';
 
 class AuthController {
     private authService: AuthService;
@@ -51,14 +54,92 @@ class AuthController {
                 })
                 .send(DTOSignIn);
         } catch (error) {
-            console.log(error);
             return res.send(500);
         }
-        // console.log(resultSignIn);
     }
-    async login(req: Request, res: Response) {}
-    async logout(req: Request, res: Response) {}
-    async refreshTokens(req: Request, res: Response) {}
+    async login(req: Request, res: Response) {
+        const { email, password } = req.body;
+
+        const logIn: ClientDTOLogin = {
+            email,
+            password,
+        };
+
+        try {
+            const resultCheckValid = this.authService.checkValidLogIn({
+                email: logIn.email,
+                password: logIn.password,
+            });
+
+            if (!resultCheckValid.status)
+                return res.status(400).send(resultCheckValid.text);
+
+            const resultLogin = await this.authService.login({
+                email: logIn.email,
+                password: logIn.password,
+            });
+
+            if (!resultLogin.status)
+                return res
+                    .status(resultLogin.statusCode)
+                    .send(resultLogin.text);
+
+            const DTOLogin: ServerDTOLogin = {
+                token: resultLogin.tokenData.accessToken,
+                expire: resultLogin.tokenData.expiresIn.toString(),
+            };
+
+            return res
+                .status(200)
+                .cookie('refreshToken', resultLogin.tokenData.refreshToken, {
+                    maxAge: +process.env.JWT_EXPIRE_SESSION,
+                    httpOnly: true,
+                })
+                .send(DTOLogin);
+        } catch (error) {
+            return res.send(500);
+        }
+    }
+
+    async logout(req: Request, res: Response) {
+        const access_token = req.header('authorization').split(' ')[1];
+
+        try {
+            await this.authService.logout({
+                access_token,
+            });
+
+            res.send(200);
+        } catch (error) {
+            return res.send(500);
+        }
+    }
+    async refreshTokens(req: Request, res: Response) {
+        const access_token = req.header('authorization').split(' ')[1];
+        const { refreshToken } = req.cookies;
+
+        try {
+            const resultRefresh = await this.authService.refreshTokens({
+                access_token,
+                refreshToken,
+            });
+
+            if (!resultRefresh.status)
+                return res
+                    .status(resultRefresh.statusCode)
+                    .send(resultRefresh.text);
+
+            const DTORefresh: ServerDTORefreshToken = {
+                token: resultRefresh.tokenData.accessToken,
+                expire: resultRefresh.tokenData.expiresIn.toString(),
+            };
+
+            return res.status(200).clearCookie('refreshToken').send(DTORefresh);
+        } catch (error) {
+            return res.send(500);
+        }
+        // const { refreshToken } = req.cookies;
+    }
 }
 
 export default AuthController;

@@ -4,6 +4,8 @@ import { User } from '../models/User/User';
 import RefreshSessions from '../models/RefreshSessions/RefreshSessions';
 import CreateNewRefresh from '../types/CreateNewRefresh';
 
+import GetUserOnEmail from '../types/GetUserOnEmail';
+
 class AuthRepository {
     private userModel: User;
     private refreshModel: RefreshSessions;
@@ -36,6 +38,22 @@ class AuthRepository {
             userId,
             refreshToken,
         });
+    }
+
+    async getUserOnEmail({ email }: GetUserOnEmail) {
+        return await this.userModel.findByEmail({ email });
+    }
+
+    async deleteRefreshSessionOnUserId({ id }: { id: string }) {
+        await this.refreshModel.deleteOnUserId({ id });
+    }
+
+    async getByRefreshToken({ refreshToken }: { refreshToken: string }) {
+        return await this.refreshModel.getByRefreshToken({ refreshToken });
+    }
+
+    async deleteByRefresh({ refreshToken }: { refreshToken: string }) {
+        return await this.refreshModel.deleteByRefresh({ refreshToken });
     }
 }
 
