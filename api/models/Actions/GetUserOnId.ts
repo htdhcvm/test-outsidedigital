@@ -34,6 +34,7 @@ class GetUserOnId implements Action {
                 [userId],
                 (err, res) => {
                     if (err) return reject(err);
+                    if (res.rowCount === 0) return resolve(false);
                     resolve({
                         creator: {
                             nickname: res.rows[0].nickname,

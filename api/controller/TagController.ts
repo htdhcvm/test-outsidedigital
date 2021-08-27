@@ -31,6 +31,7 @@ class TagController {
 
             return res.status(200).send(resultAdd.newTag);
         } catch (error) {
+            console.log(error);
             res.send(500);
         }
     }
@@ -67,6 +68,8 @@ class TagController {
                 name,
                 sortOrder,
             });
+            if (result.status == false)
+                return res.status(404).send('Not found records');
 
             res.send(result);
         } catch (error) {
@@ -78,9 +81,18 @@ class TagController {
         const access_token = req.header('authorization').split(' ')[1];
 
         try {
-            await this.tagService.deleteTagCascade({ id: +id, access_token });
-            res.status(200);
+            const result = await this.tagService.deleteTagCascade({
+                id: +id,
+                access_token,
+            });
+
+            if (result && !result.status)
+                return res.status(result.statusCode).send(result.text);
+
+            res.sendStatus(200);
         } catch (error) {
+            console.log(error);
+
             res.send(500);
         }
     }
@@ -93,6 +105,7 @@ class TagController {
                 access_token,
             });
 
+            if (result === false) return res.status(404).send('Not found tags');
             res.send(result);
         } catch (error) {
             res.send(500);

@@ -86,6 +86,7 @@ class UpdateTagData implements Action {
             params;
             this.connect.query(queryString, params, (err, res) => {
                 if (err) return reject(err);
+                if (res.rowCount === 0) return resolve(false);
                 resolve({
                     name: res.rows[0].name,
                     sortOrder: res.rows[0].sort_order,

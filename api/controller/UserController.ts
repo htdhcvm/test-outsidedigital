@@ -15,8 +15,14 @@ class UserController {
             const tagsUser = await this.userService.getUserWithTags({
                 access_token,
             });
-            res.status(200).send(tagsUser);
+
+            if (tagsUser.status === false) {
+                return res.status(tagsUser.statusCode).send(tagsUser.text);
+            }
+
+            res.status(200).send(tagsUser.data);
         } catch (error) {
+            console.log(error);
             res.send(500);
         }
     }
@@ -28,8 +34,11 @@ class UserController {
             const resultDelete = await this.userService.deleteUserAndLogout({
                 access_token,
             });
-            if (!resultDelete.status)
-                return res.status(resultDelete.statusCode);
+
+            if (resultDelete.status === false)
+                return res
+                    .status(resultDelete.statusCode)
+                    .send('Not found user');
 
             return res.send(resultDelete.statusCode);
         } catch (error) {
@@ -80,7 +89,7 @@ class UserController {
                 access_token
             );
 
-            if (!result.status) return res.status(400).send(result.text);
+            if (!result.status) return res.status(404).send(result.text);
 
             res.status(200).send(result.data);
         } catch (error) {

@@ -23,7 +23,18 @@ class UserService {
             userId,
         });
 
-        return toTagsUser(resultTagsUser);
+        if (resultTagsUser.length === 0)
+            return {
+                status: false,
+                statusCode: 400,
+                text: 'Not found tags user',
+            };
+
+        return {
+            status: true,
+            statusCode: 200,
+            data: toTagsUser(resultTagsUser),
+        };
     }
 
     async deleteUserAndLogout({ access_token }: { access_token: string }) {
@@ -36,8 +47,15 @@ class UserService {
             };
         const userId = await getFromAccessTokenUserId(access_token);
 
-        await this.userRepository.deleteUser({ userId });
+        await this.userRepository.deleteTagInUserTagByUserId({ userId });
+        const resultDelete = await this.userRepository.deleteUser({ userId });
 
+        if (resultDelete === false) {
+            return {
+                status: false,
+                statusCode: 404,
+            };
+        }
         return {
             status: true,
             statusCode: 200,
@@ -102,6 +120,13 @@ class UserService {
             password: await getHash(data.password),
             nickname: data.nickname,
         });
+
+        if (resultUpdate === false) {
+            return {
+                status: false,
+                text: 'Not found user',
+            };
+        }
 
         return {
             status: true,

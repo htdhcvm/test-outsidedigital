@@ -71,6 +71,10 @@ class UserRepository {
     async deleteTagInUserTag({ id, userId }: { id: number; userId: string }) {
         await this.userTagJoin.deleteTagInUserTag({ id, userId });
     }
+
+    async deleteTagInUserTagByUserId({ userId }: { userId: string }) {
+        await this.userTagJoin.deleteTagInUserTagByUserId({ userId });
+    }
 }
 
 export default UserRepository;

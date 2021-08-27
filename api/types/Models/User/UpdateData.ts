@@ -5,9 +5,11 @@ type PropsInComeUpdateUser = {
     nickname: string;
 };
 
-type ReturnDataUpdateUser = {
-    email: string;
-    nickname: string;
-};
+type ReturnDataUpdateUser =
+    | {
+          email: string;
+          nickname: string;
+      }
+    | boolean;
 
 export { PropsInComeUpdateUser, ReturnDataUpdateUser };

@@ -66,6 +66,7 @@ interface Action {
         | PropsInComeGetTagWithUser
         | PropsInCome):
         | Promise<void>
+        | Promise<void | boolean>
         | Promise<ReturnGetByName>
         | Promise<ReturnGetUserOnId>
         | Promise<DTOServerTag>

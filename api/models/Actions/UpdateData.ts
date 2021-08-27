@@ -49,6 +49,7 @@ class UpdateData implements Action {
                 [email, password, nickname, userId],
                 (err, res) => {
                     if (err) return reject(err);
+                    if (res.rowCount === 0) return resolve(false);
                     resolve({
                         email: res.rows[0].email,
                         nickname: res.rows[0].nickname,

@@ -16,7 +16,7 @@ class GetTagsUser implements Action {
         this.tableName = tableName;
         this.connect = connect;
     }
-    async doAction({ userId }: DeleteUser): Promise<void> {
+    async doAction({ userId }: DeleteUser): Promise<void | boolean> {
         return new Promise((resolve, reject) => {
             this.connect.query(
                 `
@@ -24,7 +24,9 @@ class GetTagsUser implements Action {
             `,
                 [userId],
                 (err, res) => {
+                    console.log(res);
                     if (err) return reject(err);
+                    if (res.rowCount === 0) return resolve(false);
                     resolve();
                 }
             );

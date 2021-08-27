@@ -66,8 +66,8 @@ class User {
         });
     }
 
-    async deleteUserOnId({ userId }: DeleteUser): Promise<void> {
-        await this.getTagsUserAction.doAction({ userId });
+    async deleteUserOnId({ userId }: DeleteUser): Promise<void | boolean> {
+        return (await this.getTagsUserAction.doAction({ userId })) as boolean;
     }
 
     async checkOnEmailAndNickName({

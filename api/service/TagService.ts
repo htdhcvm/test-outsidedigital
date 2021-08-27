@@ -94,6 +94,11 @@ class TagService {
 
         const userData = await this.tagRepository.getUserOnId({ userId });
 
+        if (tagData === false || userData === false) {
+            return {
+                status: false,
+            };
+        }
         return {
             userData,
             tagData,
@@ -109,7 +114,18 @@ class TagService {
     }) {
         const userId = await getFromAccessTokenUserId(access_token);
 
-        await this.tagRepository.deleteFromUserTag({ id, userId });
+        const resultDelete = await this.tagRepository.deleteFromUserTag({
+            id,
+            userId,
+        });
+
+        if (resultDelete === false)
+            return {
+                status: false,
+                text: 'Not fount delete resources',
+                statusCode: 404,
+            };
+
         await this.tagRepository.deleteTag({ id, userId });
     }
 

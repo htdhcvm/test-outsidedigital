@@ -56,8 +56,8 @@ class SortAndGetOnLimit implements Action {
                     sortByOrder === true || sortByName === true
                         ? `
                     ORDER BY ${sortByOrder ? `${this.sortOrder}` : ''} ${
-                              sortByName ? `,${this.name}` : ''
-                          } ASC
+                              sortByOrder && sortByName ? ',' : ''
+                          } ${sortByName ? `${this.name}` : ''} ASC
                 `
                         : ''
                 }

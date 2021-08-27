@@ -23,6 +23,8 @@ import {
     ReturnGetTagWithUser,
 } from '../../types/Models/UserTagJoin/GetTagWithUser';
 import GetTagWithUser from '../Actions/GetTagWithUser';
+import { PropInComeDeleteTagOnUserId } from '../../types/Models/UserTagJoin/DeleteTagOnUserId';
+import DeleteTagInUserTagByUserId from '../Actions/DeleteTagInUserTagByUserId';
 
 class UserTagJoin {
     private connect: Client;
@@ -48,6 +50,7 @@ class UserTagJoin {
     private sortAndGetOnLimitAction: Action;
     private deleteTagInUserTagAction: Action;
     private getTagWithUserAction: Action;
+    private deleteTagInUserTagByUserIdAction: Action;
 
     constructor() {
         this.connect = DbConnection.connect();
@@ -91,6 +94,12 @@ class UserTagJoin {
             tableNameTag: this.tableNameTag,
             uid: this.uid,
         });
+
+        this.deleteTagInUserTagByUserIdAction = new DeleteTagInUserTagByUserId({
+            connect: this.connect,
+            tableNameUserTag: this.tableNameUserTag,
+            user_id: this.user_id,
+        });
     }
 
     async getTagsUser({ userId }: GetTagsUserInCome): Promise<ReturnGetTags> {
@@ -121,7 +130,10 @@ class UserTagJoin {
     }
 
     async deleteTagInUserTag({ id, userId }: InComeDeleteOnId) {
-        await this.deleteTagInUserTagAction.doAction({ id, userId });
+        return (await this.deleteTagInUserTagAction.doAction({
+            id,
+            userId,
+        })) as Boolean;
     }
 
     async getTagWithUser({
@@ -132,6 +144,10 @@ class UserTagJoin {
             id,
             userId,
         })) as ReturnGetTagWithUser;
+    }
+
+    async deleteTagInUserTagByUserId({ userId }: PropInComeDeleteTagOnUserId) {
+        await this.deleteTagInUserTagByUserIdAction.doAction({ userId });
     }
 }
 

@@ -71,9 +71,9 @@ class AddTagsForUser implements Action {
 
                     await this.connect.query(
                         `
-                            INSERT INTO ${this.tableNameUserTag}(${this.user_id}, ${this.tag_id})
-                            VALUES($1, $2)
-                        `,
+                                INSERT INTO ${this.tableNameUserTag}(${this.user_id}, ${this.tag_id})
+                                VALUES($1, $2)
+                            `,
                         [userId, tags[i]]
                     );
                 }
