@@ -31,7 +31,6 @@ class TagController {
 
             return res.status(200).send(resultAdd.newTag);
         } catch (error) {
-            console.log(error);
             res.send(500);
         }
     }
@@ -91,8 +90,6 @@ class TagController {
 
             res.sendStatus(200);
         } catch (error) {
-            console.log(error);
-
             res.send(500);
         }
     }

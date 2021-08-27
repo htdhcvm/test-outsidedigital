@@ -1,5 +1,5 @@
 import DTOServerGetAllTagsOnUser from '../DTO/server/GetAllTagsOnUser';
-import { ReturnGetTags } from '../types/Models//UserTagJoin/UserTagJoin';
+import { ReturnGetTags } from '../types/Models/UserTagJoin/UserTagJoin';
 
 const toGetListTagsUser = (data: ReturnGetTags): DTOServerGetAllTagsOnUser => {
     const litsTags: DTOServerGetAllTagsOnUser = {

@@ -43,7 +43,6 @@ class GetTagWithUser implements Action {
         userId,
     }: PropsInComeGetTagWithUser): Promise<ReturnGetTagWithUser> {
         return new Promise((resolve, reject) => {
-            console.log(userId, id);
             this.connect.query(
                 `
                 SELECT * FROM ${this.tableNameUser}
@@ -54,7 +53,6 @@ class GetTagWithUser implements Action {
                 [userId, id],
                 (err, res) => {
                     if (err) return reject(err);
-                    console.log(res);
                     if (res.rowCount === 0) return resolve(false);
                     resolve({
                         creator: {

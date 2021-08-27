@@ -22,7 +22,6 @@ class UserController {
 
             res.status(200).send(tagsUser.data);
         } catch (error) {
-            console.log(error);
             res.send(500);
         }
     }

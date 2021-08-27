@@ -24,7 +24,6 @@ class GetTagsUser implements Action {
             `,
                 [userId],
                 (err, res) => {
-                    console.log(res);
                     if (err) return reject(err);
                     if (res.rowCount === 0) return resolve(false);
                     resolve();
