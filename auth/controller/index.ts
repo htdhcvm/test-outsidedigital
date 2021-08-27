@@ -134,7 +134,7 @@ class AuthController {
                 expire: resultRefresh.tokenData.expiresIn.toString(),
             };
 
-            return res.status(200).clearCookie('refreshToken').send(DTORefresh);
+            return res.clearCookie('refreshToken').send(DTORefresh);
         } catch (error) {
             return res.send(500);
         }
