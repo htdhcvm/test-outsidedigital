@@ -4,7 +4,7 @@
     "description": "test task for the company OUTSIDE DIGITAL api server",
     "main": "index.js",
     "scripts": {
-        "start": "nodemon --watch './**.ts' --exec \"ts-node\" ./index.ts",
+        "start": "nodemon --watch '**/*.ts' --exec \"ts-node\" ./index.ts",
         "migrate": "node-pg-migrate"
     },
     "repository": {
@@ -14,13 +14,22 @@
     "author": "htdhcvm",
     "license": "ISC",
     "dependencies": {
+        "@types/pg": "^8.6.1",
+        "bcrypt": "^5.0.1",
+        "body-parser": "^1.19.0",
         "dotenv": "^10.0.0",
         "express": "^4.17.1",
+        "jsonwebtoken": "^8.5.1",
         "node-pg-migrate": "^5.10.0",
-        "pg": "^8.7.1"
+        "pg": "^8.7.1",
+        "validator": "^13.6.0"
     },
     "devDependencies": {
+        "@types/bcrypt": "^5.0.0",
+        "@types/cookie-parser": "^1.4.2",
         "@types/express": "^4.17.13",
+        "@types/jsonwebtoken": "^8.5.5",
+        "@types/validator": "^13.6.3",
         "nodemon": "^2.0.12",
         "ts-node": "^10.2.1",
         "typescript": "^4.3.5"
