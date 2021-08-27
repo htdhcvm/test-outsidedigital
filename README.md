@@ -10,7 +10,7 @@ npm install
 ```
 npm install
 ```
-
+### В корне проекта
 ```
 docker-compose up
 ```
