@@ -27,6 +27,8 @@ services:
             DB_NAME: outsidedigital_db
             DB_PASSWORD: outsidedigital_password
             DB_PORT: 5432
+            SALT : 10
+            JWT_SECRET_KEY: 21CCEF8EF77D51D568185B5DB59D5FD534A6944FE21B2ECB3B84CC01C4744479
         volumes:
             - ./api:/app
         depends_on:
