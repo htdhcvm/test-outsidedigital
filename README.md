@@ -2,6 +2,15 @@
 
 ## Для запуска введите
 
+### В папке auth
+```
+npm install
+```
+### В папке api
+```
+npm install
+```
+
 ```
 docker-compose up
 ```
