@@ -1,12 +1,12 @@
 import UserRepository from '../repository/UserRepository';
-import getFromAccessTokenUserId from '../Helpers/getFromAccessTokenUserId';
+import getFromAccessTokenUserId from '../helpers/getFromAccessTokenUserId';
 import toTagsUser from '../mappers/toTagsUser';
-import logoutRequest from '../Helpers/logoutRequest';
+import logoutRequest from '../helpers/logoutRequest';
 import DTOClientAddTagsForUser from '../DTO/client/AddTagsForUser';
 import toAddTagsForUser from '../mappers/toAddTagsForUser';
 import CompareValidateUpdateUser from '../types/CompareValidateUpdateUser';
 import isValidData from '../validate/ValidateUserData';
-import getHash from '../Helpers/getHash';
+import getHash from '../helpers/getHash';
 import toAllUserTags from '../mappers/toAllUserTags';
 import toGetListTagsUser from '../mappers/toGetListTagsUser';
 

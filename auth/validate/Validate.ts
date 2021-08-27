@@ -1,5 +1,5 @@
 import validator from 'validator';
-import isNumber from '../Helpers/isNumber';
+import isNumber from '../helpers/isNumber';
 import ClientDTOSignIn from '../DTO/client/SignIn';
 import ClientDTOLogin from '../DTO/client/Login';
 

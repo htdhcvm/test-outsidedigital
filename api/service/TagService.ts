@@ -2,7 +2,7 @@ import TagRepository from '../repository/TagRepository';
 import DTOClientTag from '../DTO/client/PostTag';
 import { validOnActionAddNewTag } from '../validate/Validate';
 import ReturnServiceNewTag from '../types/ReturnServiceNewTag';
-import getFromAccessTokenUserId from '../Helpers/getFromAccessTokenUserId';
+import getFromAccessTokenUserId from '../helpers/getFromAccessTokenUserId';
 import DTOClientSortTagsAndGetOnLimit from '../DTO/client/SortTagsAndGetOnLimit';
 import ParamsCheck from '../types/ParamsCheck';
 import toSortTags from '../mappers/toSortTags';

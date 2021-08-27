@@ -1,21 +1,21 @@
 import AuthRepository from '../repository';
 import ClientDTOSignIn from '../DTO/client/SignIn';
-import { isValidSignIn, isValidLogIn } from '../Validate/Validate';
+import { isValidSignIn, isValidLogIn } from '../validate/Validate';
 import IssuePairTokenExpects from '../types/IssuePairTokenExpects';
 import { v4 as uuidv4 } from 'uuid';
-import getHash from '../Helpers/getHash';
-import issueAccessToken from '../Helpers/issueAccessToken';
+import getHash from '../helpers/getHash';
+import issueAccessToken from '../helpers/issueAccessToken';
 import ClientDTOLogin from '../DTO/client/Login';
 import CheckUserParams from '../types/CheckUserParams';
 import CreateNewRefresh from '../types/CreateNewRefresh';
-import comparePasswords from '../Helpers/comparePasswords';
+import comparePasswords from '../helpers/comparePasswords';
 import LoginSignInReturn from '../types/LoginSignInReturn';
 import Logout from '../types/Logout';
-import getFromAccessTokenUserId from '../Helpers/getFromAccessTokenUserId';
+import getFromAccessTokenUserId from '../helpers/getFromAccessTokenUserId';
 import PropRefreshToken from '../types/PropRefreshToken';
-import checkAccessToken from '../Helpers/checkAccessToken';
-import verifyRefreshOnTime from '../Helpers/verifyRefreshOnTime';
-import getDataFromAccessToken from '../Helpers/getDataFromAccessToken';
+import checkAccessToken from '../helpers/checkAccessToken';
+import verifyRefreshOnTime from '../helpers/verifyRefreshOnTime';
+import getDataFromAccessToken from '../helpers/getDataFromAccessToken';
 
 class AuthService {
     private authRepository: AuthRepository;

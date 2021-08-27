@@ -1,5 +1,5 @@
 import CompareValidateUpdateUser from '../types/CompareValidateUpdateUser';
-import isNumber from '../Helpers/isNumber';
+import isNumber from '../helpers/isNumber';
 import validator from 'validator';
 
 type SignInParamsReturn = {
