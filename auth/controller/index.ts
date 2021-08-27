@@ -138,7 +138,6 @@ class AuthController {
         } catch (error) {
             return res.send(500);
         }
-        // const { refreshToken } = req.cookies;
     }
 }
 
